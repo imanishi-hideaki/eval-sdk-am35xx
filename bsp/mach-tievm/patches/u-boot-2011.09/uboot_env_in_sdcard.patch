@@ -1,0 +1,88 @@
+Index: u-boot-2011.09/src/include/configs/am3517_evm.h
+===================================================================
+--- u-boot-2011.09.orig/src/include/configs/am3517_evm.h	2013-05-14 10:35:56.807212149 -0600
++++ u-boot-2011.09/src/include/configs/am3517_evm.h	2013-05-14 10:48:11.427206968 -0600
+@@ -185,49 +185,23 @@
+ 
+ /* Basic 'extra' env variables */
+ #define EXTRA_ENV_SETTINGS \
+-	"loadaddr=0x82000000\0" \
+-	"kloadaddr=0x80007fc0\0" \
+-	"console=ttyO2,115200n8\0" \
+-	"mmcdev=0\0" \
+-	"bootenv=uEnv.txt\0" \
+-	"loadbootenv=fatload mmc ${mmc_dev} ${loadaddr} ${bootenv}\0" \
+-	"importbootenv=echo Importing environment from mmc ...; " \
+-		"env import -t $loadaddr $filesize\0" \
+-	"optargs=\0" \
+-	"bootargs_defaults=setenv bootargs " \
+-		"console=${console} " \
+-		"${optargs}\0" \
+-	"mmcargs=run bootargs_defaults; " \
+-		"setenv bootargs ${bootargs} " \
+-		"root=/dev/mmcblk0p2 rw " \
+-		"rootfstype=ext3 rootwait\0" \
+-	"loadbootscript=fatload mmc ${mmcdev} ${loadaddr} boot.scr\0" \
+-	"bootscript=echo Running bootscript from mmc ...; " \
+-		"source ${loadaddr}\0" \
+-	"loaduimage=fatload mmc ${mmcdev} ${kloadaddr} uImage\0" \
+-	"mmcboot=echo Booting from mmc ...; " \
+-		"run mmcargs; " \
+-		"bootm ${kloadaddr}; \0" \
+-
+-#define CONFIG_BOOTCOMMAND \
+-	"if mmc rescan ${mmcdev}; then " \
+-		"if run loadbootscript; then " \
+-			"run bootscript; " \
+-		"else " \
+-			"if run loadbootenv; then " \
+-				"echo Loaded environment from ${bootenv};" \
+-				"run importbootenv;" \
+-			"fi;" \
+-			"if test -n $uenvcmd; then " \
+-				"echo Running uenvcmd ...;" \
+-				"run uenvcmd;" \
+-			"fi;" \
+-			"if run loaduimage; then " \
+-				"run mmcboot; " \
+-			"else run " FLASHBOOT "; " \
+-			"fi; " \
+-		"fi; " \
+-	"else run " FLASHBOOT "; fi"
++       "loadaddr=0x82000000\0" \
++       "loadbootenv=fatload mmc 0 ${loadaddr} uEnv.txt\0" \
++       "importbootenv=echo Importing environment from mmc ...; env import -t ${loadaddr} ${filesize}\0" \
++       "loaduimage=fatload mmc 0 ${loadaddr} uImage\0" \
++       "nandboot=echo Booting from nand ...; run nandargs; nand read ${loadaddr} 280000 400000; bootm ${loadaddr}\0" \
++       "nandargs=setenv bootargs console=${console} root=${nandroot} rootfs\0"
++
++# define CONFIG_BOOTCOMMAND \
++	"if mmc rescan 0; then " \
++				"if run loadbootenv ; then " \
++						"run importbootenv ; " \
++							"if test -n ${uenvcmd} ; then " \
++								"run uenvcmd; " \
++							"fi ;" \
++				"fi ;" \
++	"else run nandboot;" \
++	"fi"
+ 
+ #define CONFIG_AUTO_COMPLETE	1
+ /*
+@@ -343,14 +317,8 @@
+ #define CONFIG_ENV_OFFSET		0x80000	/* environment starts here */
+ /* NOR related env and boot */
+ #define FLASHBOOT			"norboot"
+-#define CONFIG_EXTRA_ENV_SETTINGS	EXTRA_ENV_SETTINGS \
+-	"norargs=run bootargs_defaults; " \
+-		"setenv bootargs ${bootargs} " \
+-		"root=/dev/mtdblock3 rw " \
+-		"rootfstype=jffs2\0" \
+-	"norboot=echo Booting from nor ...; " \
+-		"run norargs; " \
+-		"bootm 0x080A0000; \0"
++#define CONFIG_EXTRA_ENV_SETTINGS	EXTRA_ENV_SETTINGS
++
+ /* JFFS2 */
+ #define CONFIG_JFFS2_DEV		"nor0"
+ /* start of jffs2 partition */

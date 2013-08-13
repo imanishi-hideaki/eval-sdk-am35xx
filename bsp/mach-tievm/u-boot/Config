@@ -1,0 +1,18 @@
+config UBOOT_NAND_FLASH_MEMORY
+	bool
+	default y
+
+config UBOOT_NETWORKING
+	bool
+	default y
+	
+# This variable allows to flash all the images using the ECC by Hardware to the board
+# instead of use it only for xloader. 
+config INSTALLER_IPL_ECC_HW
+	bool
+	default n
+
+# Some machines requiere to use ECC CHIP on uboot for a correct operation
+config UBOOT_ECC_CHIP
+        bool
+        default y

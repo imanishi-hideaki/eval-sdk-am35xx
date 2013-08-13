@@ -1,0 +1,35 @@
+From bc0118889db3c48fd5760fcd8d9633373a18d8fc Mon Sep 17 00:00:00 2001
+From: Eyal Reizer <eyalr@ti.com>
+Date: Wed, 30 Mar 2011 15:39:26 +0200
+Subject: [PATCH 153/153] allow selecting WL12XX_PLATFROM_DATA independently of whether mac80211
+ and wl12xx drivers are selected in the kernel.
+ Needed for building with compat-wireless
+
+Signed-off-by: Eyal Reizer <eyalr@ti.com>
+---
+ arch/arm/mach-omap2/Kconfig         |    1 +
+ drivers/net/wireless/wl12xx/Kconfig |    1 -
+ 2 files changed, 1 insertions(+), 1 deletions(-)
+
+Index: kernel/linux-2.6.37-psp04.02.00.07/arch/arm/mach-omap2/Kconfig
+===================================================================
+--- kernel.orig/linux-2.6.37-psp04.02.00.07/arch/arm/mach-omap2/Kconfig	2013-05-14 09:59:38.751227505 -0600
++++ kernel/linux-2.6.37-psp04.02.00.07/arch/arm/mach-omap2/Kconfig	2013-05-14 10:00:54.051226974 -0600
+@@ -34,6 +34,7 @@
+ 	select ARM_L1_CACHE_SHIFT_6 if !ARCH_OMAP4
+ 	select ARCH_HAS_OPP
+ 	select PM_OPP if PM
++	select WL12XX_PLATFORM_DATA
+ 
+ config ARCH_OMAP4
+ 	bool "TI OMAP4"
+Index: kernel/linux-2.6.37-psp04.02.00.07/drivers/net/wireless/wl12xx/Kconfig
+===================================================================
+--- kernel.orig/linux-2.6.37-psp04.02.00.07/drivers/net/wireless/wl12xx/Kconfig	2013-05-14 09:59:38.775227505 -0600
++++ kernel/linux-2.6.37-psp04.02.00.07/drivers/net/wireless/wl12xx/Kconfig	2013-05-14 09:59:42.459227479 -0600
+@@ -42,5 +42,4 @@
+ 
+ config WL12XX_PLATFORM_DATA
+ 	bool
+-	depends on WL1271_SDIO != n
+ 	default y

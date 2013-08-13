@@ -1,0 +1,20 @@
+#$L$
+# Copyright (C) 2013 Ridgerun (http://www.ridgerun.com). 
+#
+#$L$
+
+ifeq ($(DEVDIR),)
+$(error ====== DEVDIR variable is empty, invoke this Makefile from the BSP root, or provide the path to it =====)
+endif
+include $(DEVDIR)/bsp/mach/Make.conf
+
+#MACH IDENTIFIERS
+UBOOT_BOARD_CONFIG = am3517_evm_config
+
+.PHONY: mach_build mach_clean
+
+mach_post_build:
+
+mach_build:
+
+mach_clean: 

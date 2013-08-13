@@ -1,0 +1,13 @@
+Index: u-boot-2011.09/src/include/configs/am3517_evm.h
+===================================================================
+--- u-boot-2011.09.orig/src/include/configs/am3517_evm.h	2013-04-05 02:00:32.000000000 -0600
++++ u-boot-2011.09/src/include/configs/am3517_evm.h	2013-05-14 10:19:39.083219041 -0600
+@@ -264,6 +264,8 @@
+ #define CONFIG_SYS_PTV			2	/* Divisor: 2^(PTV+1) => 8 */
+ #define CONFIG_SYS_HZ			1000
+ 
++#define CONFIG_CMD_CACHE
++
+ /*-----------------------------------------------------------------------
+  * Stack sizes
+  *

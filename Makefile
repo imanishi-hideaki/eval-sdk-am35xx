@@ -56,9 +56,9 @@ patch:: .oscheck header $(foreach COMP, $(COMPONENTS), $(COMP)_patch)
 buildfs:: .oscheck header $(foreach COMP, $(COMPONENTS), $(COMP)_buildfs)
 
 #Special seek for ti-flash-utils and patch remove
-TI_FLASH_UTILS=$(shell find bootloader -name 'ti-flash-utils')
+TI_FLASH_UTILS=$(DEVDIR)/bootloader/$(BOOTLOADER)/ti-flash-utils
 unpatch_noheader: $(foreach COMP, $(COMPONENTS), $(COMP)_unpatch)
-	if [ -d $(TI_FLASH_UTILS)/ ] ; then \
+	if [ -d $(TI_FLASH_UTILS) ] ; then \
 		cd $(TI_FLASH_UTILS) ; \
 		make unpatch ; \
 	fi;
